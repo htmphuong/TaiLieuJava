@@ -2,7 +2,7 @@ package basic;
 
 import java.util.Scanner;
 
-public class Students {
+public class Students implements Comparable<Students> {
 	 private String name;
 	 private double average;
 	 //get, set
@@ -42,4 +42,16 @@ public class Students {
 	public void output() {
 		System.out.println("Student has"+this.getName()+" and average ="+this.getAverage());
 	}
+	public int compareTo(Students A,Students B) {
+		return (int)(A.average - B.average); 
+	}
+	@Override
+	public int compareTo(Students other) {
+		// TODO Auto-generated method stub
+		Students student = other;
+		return (int)(this.average-other.average);
+	}
+	
+	
+	
 }
