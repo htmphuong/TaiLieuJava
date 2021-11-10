@@ -1,10 +1,15 @@
-package basic;
+package Inheritance;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Person {
-	protected String name; //field
-	protected double rate;
+	protected String name;
+	protected Date age;
+	protected String birthday;
 	
 	public String getName() {
 		return name;
@@ -12,39 +17,49 @@ public class Person {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public double getRate() {
-		return rate;
+	public Date getAge() {
+		return age;
 	}
-	public void setRate(double rate) {
-		this.rate = rate;
+	public void setAge(Date age) {
+		this.age = age;
 	}
-	//default contructor
+	
+	public String getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+	//constructor
 	public Person() {
 		
 	}
-	public Person(String name ,double rate) {
-		this.name = name;
-		this.rate = rate;
-	}
-	public Person(Person p) {
-		this.rate = p.rate;
-		this.name = p.name;
-	}
 	
-	public void Input() { //method
-		int a;
-		Scanner  key = new Scanner(System.in);
-		System.out.println("Name =");
-		this.name= key.nextLine();
-		System.out.println("Rate =");
-		this.rate= Double.parseDouble(key.nextLine());
-		
+	public Person(String name, Date age,String birthday) {
+		this.name = name;
+		this.age=age;
+		this.birthday = birthday;
 	}
-	public void calSalary() { //method
-		this.Input();
-		this.name="abc";
+	public void Input() throws ParseException {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Input name: ");
+		this.name = sc.nextLine();
+		System.out.println("Input age:");
+		/*String pattern = "dd-MM-yy";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+		this.age = simpleDateFormat.parse(sc.nextLine());*/
+		SimpleDateFormat df =new SimpleDateFormat("dd/mm/yyyy");		
+		Date age = df.parse(sc.nextLine());
+		this.age  = age;
+				
+		//this.age = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss").format(sc.nextLine());
+		System.out.println("Input birthday:");
+		this.birthday = sc.nextLine();
+		// DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");  
+		// String formattedDate = myDateObj.format(myFormatObj);  
+		// this.birthday.format(myFormatObj);  
 	}
-	public void Output() {
-		System.out.println("Name ="+this.getName());
+	public void ViewDetail() {
+		System.out.println("Name ="+this.getName()+ " and age ="+this.getAge());
 	}
 }
