@@ -1,45 +1,62 @@
-package Inheritance;
+package Basic;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.Scanner;
+import java.awt.Button;
+import java.awt.Container;
+import java.awt.GridLayout;
 
-public class Employee extends Person  {
-	private double salary;
-	private double rate;
-	public double getSalary() {
-		return salary;
-	}
-	public void setSalary(double salary) {
-		this.salary = salary;
-	}
-	public double getRate() {
-		return rate;
-	}
-	public void setRate(double rate) {
-		this.rate = rate;
-	}
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+public class Employee extends JFrame {
+	JFrame f = new JFrame("Employee Details	");
+	JLabel lblUser = new JLabel("Name");
+	JTextField tfUser = new JTextField(10);
+	
+	JLabel lblGender  = new JLabel("Gender");
+	JRadioButton rdoMale = new JRadioButton("Male");
+	JRadioButton rdoFemale = new JRadioButton("Female");
+	ButtonGroup bgGender = new ButtonGroup();
+	
+	String grade[]= { "Elementary","High School","Undergraduate","Master","Doctor"};
+	JLabel lblGrade = new JLabel("Grade");
+	JList lstGrade = new JList(grade);
+	
+	JLabel lblDepartment = new JLabel("Department");
+	String department[]= {"VKU","Axon Active","Fpt","Enclave"};
+	JComboBox cboDepartment = new JComboBox(department);
+	
+	JButton bnSave = new JButton("Add Employee");
+	
 	public Employee() {
+		Container cont = f.getContentPane();
+		f.setLayout(new GridLayout(6,2));
+		f.setLocation(300, 100);
+		f.add(lblUser);
+		f.add(tfUser);
+		f.add(lblGender);
+		f.add(rdoMale);
+		f.add(rdoFemale);
+		bgGender.add(rdoFemale);
+		bgGender.add(rdoMale);	
+		f.add(lblGender);
+		f.add(lstGrade);
+		f.add(lblDepartment);
+		f.add(cboDepartment);
+		f.add(bnSave);
+		f.setSize(300,700);
+		f.pack();
+		f.setVisible(true);
 		
 	}
-	public Employee(String name, Date age, String birthday, double salary, double rate) {
-		super(name, age, birthday);
-		this.salary = salary;
-		this.rate = rate;
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new Employee();
 	}
-	public double calSalary() {
-		return this.rate*this.salary;
-	}
-	public void Input() throws ParseException {
-		super.Input();
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Input salary: ");
-		this.salary = Double.parseDouble(sc.nextLine());
-		System.out.println("Input rate: ");
-		this.rate = Double.parseDouble(sc.nextLine());
-	}
-	public void ViewDetail() {
-		super.ViewDetail();
-		System.out.println(" has salary= "+this.calSalary());
-	}
+
 }
