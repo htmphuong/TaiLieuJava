@@ -1,0 +1,68 @@
+package Business;
+
+import java.awt.Container;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.awt.FlowLayout; 
+import java.awt.GridLayout;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+import DBManage.ConnectDB;
+
+import java.awt.CardLayout;
+
+
+public class FacebookForm extends JFrame {
+	JFrame f = new JFrame("The Frame");
+	JLabel lbSignUp = new JLabel("Sign Up");
+	JTextField tfFirstName = new JTextField(10);
+	JPasswordField tfPass = new JPasswordField(10);
+	JButton btnSignUp = new JButton("Sign Up");
+	JRadioButton rbMale=new JRadioButton("Male");    
+	JRadioButton rbFemale=new JRadioButton("Female");
+	ButtonGroup br= new ButtonGroup();
+	
+	PreparedStatement ps;
+	Connection conn;
+	public FacebookForm() {
+		//tao 1 container de add cac component vao
+		 // this.getContentPane().;
+		f.setLocation(300, 300);
+		f.setLayout(new FlowLayout());
+		Container cont = f.getContentPane();
+		//cont.setLayout(new LayoutManager());
+		cont.add(lbSignUp);
+		cont.add(tfFirstName);
+		cont.add(tfPass);
+		br.add(rbMale);
+		br.add(rbFemale);
+		cont.add(rbMale);
+		cont.add(rbFemale);
+		//Hobbies : Game Music
+		cont.add(btnSignUp);
+				
+		f.setSize(200,200);
+		f.pack();
+	    f.setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//new FacebookForm();
+		new FacebookForm();    
+	    
+	}
+
+}
