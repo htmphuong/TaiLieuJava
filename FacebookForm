@@ -1,0 +1,124 @@
+package Business;
+
+import java.awt.Container;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.FlowLayout; 
+import java.awt.GridLayout;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+import DBManage.ConnectDB;
+
+import java.awt.CardLayout;
+
+
+public class FacebookForm extends JFrame {
+	JFrame f = new JFrame("The Frame");
+	JLabel lbSignUp = new JLabel("Sign Up");
+	JTextField tfFirstName = new JTextField(10);
+	JPasswordField tfPass = new JPasswordField(10);
+	JButton btnSignUp = new JButton("Sign Up");
+	JButton btnChange = new JButton("Change Pass");
+	JButton btnDelete = new  JButton("Delete");
+	JRadioButton rbMale=new JRadioButton("Male");    
+	JRadioButton rbFemale=new JRadioButton("Female");
+	JButton btnList = new JButton("List");
+	ButtonGroup br= new ButtonGroup();
+	
+	PreparedStatement ps;
+	Connection conn;
+	ResultSet rs;
+	public FacebookForm() {
+		//tao 1 container de add cac component vao
+		 // this.getContentPane().;
+		f.setLocation(300, 300);
+		f.setLayout(new FlowLayout());
+		Container cont = f.getContentPane();
+		//cont.setLayout(new LayoutManager());
+		cont.add(lbSignUp);
+		cont.add(tfFirstName);
+		cont.add(tfPass);
+		br.add(rbMale);
+		br.add(rbFemale);
+		cont.add(rbMale);
+		cont.add(rbFemale);
+		//Hobbies : Game Music
+		cont.add(btnSignUp);
+		btnSignUp.addActionListener(new ActionListener(){  
+		    public void actionPerformed(ActionEvent e){  
+		    	ConnectDB cnn = new ConnectDB();
+		    	String gender="";
+		    	if(rbMale.isSelected()) gender=rbMale.getText();
+		    	else gender = rbFemale.getText();
+		    	cnn.executeDB(" Exec sp_AddAccount '"+tfFirstName.getText()+"','"+tfPass.getText()+"','"+gender+"'");
+	            
+	    }  
+	    });		
+		cont.add(btnChange);
+		btnChange.addActionListener(new ActionListener(){  
+		    public void actionPerformed(ActionEvent e){  
+		    	ConnectDB cnn = new ConnectDB();
+		    	int record= cnn.executeDB("Update Account set Password='"+tfPass.getText()+"' where Username ='"+tfFirstName.getText()+"' ");
+		    	if(record>0) JOptionPane.showMessageDialog(null, "Change Pass sucessfully!");
+		    	else JOptionPane.showMessageDialog(null, "Error");
+	            
+	    }  
+	    });
+		cont.add(btnDelete);
+		btnDelete.addActionListener(new ActionListener(){  
+		    public void actionPerformed(ActionEvent e){  
+		    	ConnectDB cnn = new ConnectDB();
+		    	String gender="";
+		    	if(rbMale.isSelected()) gender=rbMale.getText();
+		    	else gender = rbFemale.getText();
+		    	int record = cnn.executeDB("Delete Account where Username ='"+tfFirstName.getText()+"'");
+		    	if(record>0) JOptionPane.showMessageDialog(null, "Delete Account sucessfully!");
+		    	else JOptionPane.showMessageDialog(null, "Error");
+	    }  
+	    });
+		cont.add(btnList);
+		btnList.addActionListener(new ActionListener(){  
+		    public void actionPerformed(ActionEvent e){  
+		    	ConnectDB cnn = new ConnectDB();
+		    	String gender="";
+		    	if(rbMale.isSelected()) gender=rbMale.getText();
+		    	else gender = rbFemale.getText();
+		    	rs = cnn.ListAccount("exec [sp_SelectByGender] '"+gender+"' ");
+		    	try {
+					while(rs.next()) {
+						System.out.println("Username ="+rs.getString("Username"));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    	
+	    }  }
+	    );
+		f.setSize(200,200);
+		f.pack();
+	    f.setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//new FacebookForm();
+		new FacebookForm();    
+	    
+	}
+
+}
