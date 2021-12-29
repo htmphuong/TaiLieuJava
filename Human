@@ -1,0 +1,84 @@
+package GUI;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import com.toedter.calendar.JCalendar;
+
+import Business.ConnectDB;
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.awt.*;
+import java.util.Calendar;
+import java.util.Date;
+public class EmployeeGUI extends JFrame {
+	JFrame f = new JFrame();
+	JLabel lbID = new JLabel("Id");
+	JTextField tfID = new JTextField(10);
+	JLabel lbName = new JLabel("Name");
+	JTextField tfName = new JTextField(10);
+	JLabel lbBirthday = new JLabel("Birthday");
+	JCalendar clBirthday = new JCalendar();
+	
+	//JTextField tfBirthday = new JTextField(10);  
+	JLabel lbRate = new JLabel("Rate");
+	JTextField tfRate = new JTextField(10);
+	JLabel blDep = new JLabel("Department");
+	String Depart[] = {"VKU","DTU","DUT"};
+	JComboBox cbdepart = new JComboBox(Depart);
+	JButton btSignUp = new JButton("Sign Up");
+    public EmployeeGUI() {
+		f.setLocation(500,200);
+		f.setLayout(new GridLayout(6,2));
+		Container cont =  f.getContentPane();
+		cont.add(lbID);
+		cont.add(tfID);
+		cont.add(lbName);
+		cont.add(tfName);
+		cont.add(lbBirthday);
+		cont.add(clBirthday);
+		cont.add(lbRate);
+		cont.add(tfRate);
+		cont.add(blDep);
+		cont.add(cbdepart);
+		cont.add(btSignUp);
+		btSignUp.addActionListener(new ActionListener(){ 
+			public void actionPerformed(ActionEvent e){
+			//covert string sang date trong java
+				SimpleDateFormat formatter1=new SimpleDateFormat("dd/MM/yyyy");  
+				try {
+					//Date birthday=formatter1.parse(tfBirthday.getText());
+					Date selectedDate = (Date) clBirthday.getDate();
+					java.sql.Date birthday = convertUtilToSql(selectedDate);
+					ConnectDB conn = new ConnectDB();
+					
+					int record = conn.executeDB("Insert into Employee values('"+tfID.getText()+"','"+tfName.getText()+"','"+birthday+"','"+tfRate.getText()+"','"+cbdepart.getSelectedItem().toString()+"')");
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}  
+			}
+			
+			
+		});
+		f.pack();
+		f.setSize(500,500);
+		f.setVisible(true);
+}
+    private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
+        java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+        return sDate;
+    }
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new EmployeeGUI();
+	}
+
+}
