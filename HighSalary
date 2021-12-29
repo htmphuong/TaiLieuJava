@@ -1,0 +1,61 @@
+package GUI;
+
+import java.awt.GridLayout;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import Business.ConnectDB;
+
+public class HighSalary extends JFrame {
+	JFrame f = new JFrame();
+	JLabel lbListHigh = new JLabel("List of Employees have highest salary");
+	JTable tbRate;
+	Connection conn;
+	Statement stmt ;
+	PreparedStatement ps;
+	ResultSet rs;
+	public HighSalary() {
+		
+		f.setLocation(500,200);
+		f.setLayout(new GridLayout(2,1));
+		f.add(lbListHigh);
+		DisplayRate();
+		JScrollPane pnEmp = new JScrollPane(tbRate);
+		f.add(pnEmp);
+		f.pack();
+		f.setSize(500,500);
+		f.setVisible(true);
+	}
+	public void DisplayRate() {
+		   ConnectDB conn = new ConnectDB();
+	        rs= conn.DisplayAll("SELECT Id, Name,Birthday, Rate, Department FROM Employee  where Rate =(select max(rate)  from Employee )");
+	        		
+	        String column[] = {"Id", "Name"," Birthday"," Rate"," Department"};
+	        DefaultTableModel listrate = new DefaultTableModel (column, 0);
+	        try {
+				while (rs.next()) {
+					Object data[]= {rs.getString("Id"), rs.getString("Name"),rs.getString("Birthday"),rs.getString("Rate"), rs.getString("Department")};    
+				
+					tbRate = new JTable(listrate);
+					listrate.addRow(data);
+					
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				
+			}
+	      }
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new HighSalary();
+	}
+
+}
