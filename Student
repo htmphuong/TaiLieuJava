@@ -1,0 +1,46 @@
+package GUI;
+
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+
+public class Student {
+	JFrame f = new JFrame("Student");
+	JLabel lbId = new JLabel("ID");
+	JTextField tfId = new JTextField(10);
+	JLabel lbName = new JLabel("Name");
+	JTextField tfName = new JTextField(10);
+	JLabel lbMath = new JLabel("Math");
+	JTextField tfMath = new JTextField(10);
+	JButton btnInsert = new JButton("Insert");
+	JButton btnUpdate = new JButton("Update");
+	JButton btnDelete = new JButton("Delete");
+	public Student() {
+		
+		f.setLocation(300, 300);
+		f.setLayout(new GridLayout(5,2));
+		f.add(lbId);
+		f.add(tfId);
+		f.add(lbName);
+		f.add(tfName);
+		f.add(lbMath);
+		f.add(tfMath);
+		f.add(btnInsert);
+		f.add(btnUpdate);
+		f.add(btnDelete);
+		f.setSize(200 , 200);
+		f.pack();
+	    f.setVisible(true);
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new Student();
+	}
+
+}
