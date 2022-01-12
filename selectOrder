@@ -1,0 +1,120 @@
+package GUI;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
+import com.toedter.calendar.JCalendar;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
+public class selectOrder extends JFrame{
+	JFrame f = new JFrame("Orderl");
+	
+	JLabel lbOrderDateStart = new JLabel("OrderDate Start");
+	JCalendar jcOrderDateStart = new JCalendar();
+	JLabel lbOrderDateEnd = new JLabel("OrderDate End");
+	JCalendar jcOrderDateEnd = new JCalendar();
+	
+	JButton btSelect = new JButton("Select");
+	
+	JFrame f1 = new JFrame();
+	
+	PreparedStatement ps;
+	Connection conn;
+	ResultSet rs;
+	JTable tbmonth = new JTable();
+	JScrollPane sp = new JScrollPane(tbmonth);
+	public selectOrder() {
+		f.setLocation(250,250);
+		f.setLayout(new GridLayout(4,2));
+		Container cont =  f.getContentPane();
+		
+		cont.add(lbOrderDateStart);
+		cont.add(jcOrderDateStart);
+		cont.add(lbOrderDateEnd);
+		cont.add(jcOrderDateEnd);
+		cont.add(btSelect);
+		f.pack();
+		f.setSize(500,500);
+		f.setVisible(true);
+		
+	
+		btSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jframe2();
+			
+				f.dispose();
+			}
+		});
+		tbmonth.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent event) {
+	            // do some actions here, for example
+	            // print first column value from selected row
+	            System.out.println(tbmonth.getValueAt(tbmonth.getSelectedRow(), 0).toString());
+	        }
+	    });
+
+	}
+	private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {                                     
+	     JTable source = (JTable)evt.getSource();
+	            int row = source.rowAtPoint( evt.getPoint() );
+	            int column = source.columnAtPoint( evt.getPoint() );
+	            String s=source.getModel().getValueAt(row, column)+"";
+
+	            JOptionPane.showMessageDialog(null, s);
+
+
+	} 
+	
+	public void jframe2() {	
+		
+		f1.setLocation(250,250);
+		f1.setLayout(new GridLayout(4,2));
+		Container cont1 =  f1.getContentPane();
+		
+		cont1.add(sp);
+		f1.pack();
+		f1.setSize(500,200);
+		f1.setVisible(true);
+		DisplayOrder();
+	}
+	public void DisplayOrder() {
+		   Business.ConnectDB conn = new Business.ConnectDB();
+	       rs= conn.listAll("Select * from Product");	        	
+	      String column[] = {"ProductID", "ProductName"," Quantity"};
+	        DefaultTableModel tm = new DefaultTableModel (column, 0);
+	        try {
+				while (rs.next()) {
+					Object data[]= {rs.getString("ProductID"), rs.getString("ProductName"),rs.getString("Quantity")};   
+	
+					tm.addRow(data);
+					
+				}
+				tbmonth.setModel(tm);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        
+	}
+	
+
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new selectOrder();
+		
+	}
+
+}
