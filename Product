@@ -1,0 +1,47 @@
+package GUI;
+
+import java.awt.Container;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+
+public class Product {
+	JFrame f = new JFrame("Product");
+	JLabel lbID = new JLabel("Product Id");
+	JTextField tfID = new JTextField(10);
+	JLabel lbName = new JLabel("Product Name");
+	JTextField tfName = new JTextField(10);
+	JLabel lbQuantity = new JLabel("Quantity");
+	JTextField tfQuantity = new JTextField(10);
+	JButton btnAdd = new JButton("Add");
+	JButton btnUpdate = new JButton("Edit");
+	JButton btnDelete = new JButton("Delete");
+	public Product() {
+		
+		f.setLocation(250,250);
+		f.setLayout(new GridLayout(7,2));
+		Container cont =  f.getContentPane();
+		cont.add(lbID);
+		cont.add(tfID);
+		cont.add(lbName);
+		cont.add(tfName);
+		cont.add(lbQuantity);
+		cont.add(tfQuantity);
+		
+		cont.add(btnAdd);
+		cont.add(btnUpdate);
+		f.pack();
+		f.setSize(500,500);
+		f.setVisible(true);
+		
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new Product();
+	}
+}
