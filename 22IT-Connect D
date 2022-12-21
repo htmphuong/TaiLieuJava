@@ -1,0 +1,19 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class Business {
+	Connection conn;
+	//nap driver
+	public void connectDB() {
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			//tao ket noi tu java ve sql
+			conn = DriverManager.getConnection("jdbc:sqlserver://DESKTOP-NU4VCB7\\SQLEXPRESS;database=BankManagement;encrypt=false;trustServerCertificate=true;user=sa;password = 123456;");
+			System.out.println("ok");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+}
